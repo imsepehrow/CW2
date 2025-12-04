@@ -1,12 +1,19 @@
 from file_handler import load_inventory, save_inventory
 
-# Function to generate the next unique ID
+# Function to generate the next unique ID without duplicates
 def generate_next_id(inventory):
-    if not inventory:   # If list is empty
+    if not inventory:
         return 1
-    # Get highest existing ID
-    max_id = max(item["id"] for item in inventory)
-    return max_id + 1
+    
+    existing_ids = sorted(item["id"] for item in inventory)
+
+    expected = 1
+    for id_value in existing_ids:
+        if id_value != expected:
+            return expected
+        expected += 1
+
+    return expected
 
 
 # Function to add a new item to the inventory
@@ -22,6 +29,9 @@ def add_item():
     # --- PRICE VALIDATION ---
     try:
         price = float(input("Enter item price: "))
+        if price <= 0:
+            print("Error: Price must be greater than 0.")
+            return
     except ValueError:
         print("Error: Price must be a number.")
         return
@@ -29,6 +39,9 @@ def add_item():
     # --- QUANTITY VALIDATION ---
     try:
         quantity = int(input("Enter item quantity: "))
+        if quantity < 0:
+            print("Error: Quantity cannot be negative.")
+            return
     except ValueError:
         print("Error: Quantity must be a number.")
         return
@@ -41,7 +54,6 @@ def add_item():
         "quantity": quantity
     }
 
-    # Add to list and save
     inventory.append(item)
     save_inventory(inventory)
     print("Item added successfully!")
