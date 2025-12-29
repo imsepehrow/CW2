@@ -6,7 +6,7 @@ from low_stock import low_stock_report
 from file_handler import load_inventory, save_inventory
 
 
-# Show main menu options
+# Show the main menu options
 def show_menu():
     print("\n=== INVENTORY MENU ===")
     print("1. Add item")
@@ -14,7 +14,7 @@ def show_menu():
     print("3. Update item")
     print("4. Delete item")
     print("5. Search")
-    print("6. Reports")
+    print("6. Low stock report")
     print("7. Save and exit")
 
 
@@ -82,13 +82,11 @@ def main():
         elif choice == "5":
             search_inventory()
         elif choice == "6":
-            # Reports option
+            # reports menu option (low stock report)
             low_stock_report()
         elif choice == "7":
-            # Save before exiting
-            inventory = load_inventory()
-            save_inventory(inventory)
-            print("Inventory saved. Exiting program.")
+            # Exit Program
+            print("Exiting program.")
             break
         else:
             print("Please enter a number between 1 and 7.")
