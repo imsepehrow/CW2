@@ -62,22 +62,26 @@ def update_item():
         print("Name updated!")
         return
 
-#User can update the price or quantity of an item.
     if userchoice in ("2", "3"):
         value_type = float if userchoice == "2" else int
         new_val = get_number("New value: ", value_type)
-
-        if new_val is None:
-            return
-        if new_val < 0:
-            print("Invalid value: must not be negative.")
-            return
-
-        field = "price" if userchoice == "2" else "quantity"
-        item[field] = new_val
-        save_inventory(inv)
-        print("Item updated!")
+        
+    if new_val is None:
         return
+#Item price cannot be less than 0.01
+    if userchoice == "2" and new_val < 0.01:
+        print("Invalid price: must be at least 0.01.")
+        return
+#Item quantity cannot be less than 0.
+    if userchoice == "3" and new_val < 0:
+        print("Invalid quantity: must not be negative.")
+        return
+
+    field = "price" if userchoice == "2" else "quantity"
+    item[field] = new_val
+    save_inventory(inv)
+    print("Item updated!")
+    return
 
 #Price and quantity must be a positive number or program returns 'Invalid Choice'
     print("Invalid choice.")
